@@ -2,11 +2,12 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
-import React, { useRef, useEffect, useLayoutEffect } from "react";
-import { useFrame } from '@react-three/fiber'
-import gsap from "gsap";
+import React, { useRef, useEffect, useContext } from "react";
+import gsap from "gsap"; // Animation library
 import { useGLTF, useScroll } from "@react-three/drei";
 import garageScene from '../assets/rick_and_morty_garage_fan_art.glb';
+import { PageContext } from "../App";
+import { CameraPositionLogger } from "../helpers/CameraPositionLogger";
 
 /* const positions = {
   washingmachine: {
@@ -52,7 +53,164 @@ export function GarageModel(props) {
   const { nodes, materials, scene } = useGLTF(garageScene);
   const modelPosRef = useRef();
   const scroll = useScroll();
-  const tl = useRef();
+  //const tl = useRef();
+  const washingMachineRef = useRef();
+  const doorRef = useRef();
+  const boardRef = useRef();
+  const { page } = useContext(PageContext);
+  const gsapTL = gsap.timeline(); // set tlRef to be gsap timeline
+
+  useEffect(() => {
+    console.log(page);
+
+    switch (page) {
+      case 'garage-entry-door':
+        // Door Location
+        gsapTL.to(
+          modelPosRef.current.position,
+          {
+            duration: 0.5,
+            x: 200,
+            y: -450,
+            z: -135,
+          },
+          0
+        );
+    
+        gsapTL.to(
+          modelPosRef.current.rotation,
+          {
+            duration: 1,
+            x: Math.PI / 2,
+            y: 0,
+            z: 0,
+          },
+          0,
+        )
+        break;
+      case 'garage-slide-door':
+        // Garage door Location
+        gsapTL.to(
+          modelPosRef.current.position,
+          {
+            duration: 1,
+            x: -350,
+            y: -750,
+            z: -175,
+          },
+          0
+        );
+    
+        gsapTL.to(
+          modelPosRef.current.rotation,
+          {
+            duration: 1,
+            x: Math.PI / 2,
+            y: 1.57,
+            z: 0,
+          },
+          0
+        );
+        break;
+      case 'washingmachine':
+        // Washing Machine Location
+        gsapTL.to(
+          modelPosRef.current.position,
+          {
+            duration: 1,
+            x: 100,
+            y: -850,
+            z: -220,
+          },
+          0
+        )
+        gsapTL.to(
+          modelPosRef.current.rotation,
+          {
+            duration: 1,
+            x: Math.PI / 2,
+            y: -1.58,
+            z: 0,
+          },
+          0
+        )
+        break
+      case 'board':
+        // Board Location
+        gsapTL.to(
+          modelPosRef.current.position,
+          {
+            duration: 0.5,
+            x: 350,
+            y: -950,
+            z: -250,
+          },
+          0
+        );
+    
+        gsapTL.to(
+          modelPosRef.current.rotation,
+          {
+            duration: 1,
+            x: Math.PI / 2,
+            y: -1.95,
+            z: -0.1
+          },
+          0,
+        )
+        break;
+      case 'shelf':
+        // Shelf Location
+        gsapTL.to(
+          modelPosRef.current.position,
+          {
+            duration: 1,
+            x: -40,
+            y: -400,
+            z: -135,
+          },
+          0
+        );
+    
+        gsapTL.to(
+          modelPosRef.current.rotation,
+          {
+            duration: 1,
+            x: Math.PI / 2,
+            y: 0.5,
+            z: 0,
+          },
+          0
+        );
+        break;
+      case 'table':
+        // Table Location
+        gsapTL.to(
+          modelPosRef.current.position,
+          {
+            duration: 1,
+            x: -550, // -200 default
+            y: -380, // -380 default 
+            z: -20, // -20 default 
+          },
+          0
+        );
+    
+        gsapTL.to(
+          modelPosRef.current.rotation,
+          {
+            duration: 1,
+            x: Math.PI / 2,
+            y: 1.6, // 1.6
+            z: 1.53, // 1.53
+          },
+          0
+        );
+        break;
+      default:
+        console.log('no page found');
+    }
+  }, [page]);
 
   useEffect(() => {
     return () => {
@@ -67,9 +225,9 @@ export function GarageModel(props) {
   }, [nodes]);
 
   return (
-    <group {...props} ref={modelPosRef}>
+    <group {...props}>
       <group rotation={[-Math.PI / 2, 0, 0]} scale={0.009}>
-        <group rotation={positions[0].rot} position={positions[0].pos}>
+        <group rotation={[Math.PI / 2, 0, 0]} ref={modelPosRef}>
           <group
             position={[200, 0, -70]}
             rotation={[-Math.PI / 2, 0, 0]}
@@ -106,6 +264,7 @@ export function GarageModel(props) {
             position={[-100, 300, -74.508]}
             rotation={[-Math.PI / 2, 0, 0]}
             scale={100}
+            ref={doorRef}
           >
             <mesh
               castShadow
@@ -124,6 +283,7 @@ export function GarageModel(props) {
             position={[-86.888, 300, -74.508]}
             rotation={[-Math.PI / 2, 0, 0]}
             scale={100}
+            ref={boardRef}
           >
             <mesh
               castShadow

@@ -6,7 +6,7 @@ import React, { useRef, useEffect, useContext } from "react";
 import gsap from "gsap"; // Animation library
 import { useGLTF, useScroll } from "@react-three/drei";
 import garageScene from '../assets/rick_and_morty_garage_fan_art.glb';
-import { PageContext } from "../App";
+import { PageContext } from "../helpers/PageContext";
 import { CameraPositionLogger } from "../helpers/CameraPositionLogger";
 
 /* const positions = {

@@ -6,6 +6,10 @@ import { GarageModel } from './components/GarageModel';
 import { Html, useProgress, OrbitControls, Text } from '@react-three/drei';
 import { CameraPositionLogger } from './helpers/CameraPositionLogger';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { PageContext } from './helpers/PageContext';
+import HomePage from './pages/HomePage/HomePage';
+import CharacterPage from './pages/CharacterPage/CharacterPage';
+import PlanetPage from './pages/PlanetPage/PlanetPage';
 
 const Loading = () => {
   const { progress } = useProgress();
@@ -20,47 +24,6 @@ const Loading = () => {
   )
 }
 
-export const PageContext = createContext(null);
-
-const PlanetPage = () => {
-  const { page, setPage } = useContext(PageContext);
-  useEffect(() => {
-    setPage('shelf');
-  }, [])
-
-  return (
-    <article>
-      <h1>Planet Page</h1>
-    </article>
-  )
-}
-
-const CharacterPage = () => {
-  const { page, setPage } = useContext(PageContext);
-  useEffect(() => {
-    setPage('garage-slide-door');
-  }, [])
-  
-  return (
-    <article>
-      <h1>Character Page</h1>
-    </article>
-  )
-}
-
-const HomePage = () => {
-  const { page, setPage } = useContext(PageContext);
-  useEffect(() => {
-    setPage('table');
-  }, [])
-
-  return (
-    <article>
-      <h1>Home Page</h1>
-    </article>
-  )
-}
-
 function App() {
   const [page, setPage] = useState('table');
   const [isMobile, setMobile] = useState('');
@@ -70,7 +33,11 @@ function App() {
     <BrowserRouter>
       <section className='h-screen w-screen relative'>
         <PageContext.Provider value={{ page, setPage }}>
-          <Canvas>
+          <Canvas 
+            camera = {{
+              fov: 75, // default 75 FOV for desktop, set to 90 for mobile
+            }}
+          >
             <Suspense fallback={<Loading/>}>
               <ambientLight intensity={1} />
               <OrbitControls /* enableZoom={false} enableRotate={false} enablePan={false} */ ref={cameraRef}/>

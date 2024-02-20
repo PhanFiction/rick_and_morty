@@ -4,10 +4,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useRef, useEffect, useContext } from "react";
 import gsap from "gsap"; // Animation library
-import { useGLTF, useScroll } from "@react-three/drei";
-import garageScene from '../assets/rick_and_morty_garage_fan_art.glb';
-import { PageContext } from "../helpers/PageContext";
-import { CameraPositionLogger } from "../helpers/CameraPositionLogger";
+import { useGLTF } from "@react-three/drei";
+import garageScene from '../../assets/rick_and_morty_garage_fan_art.glb';
+import { PageContext } from "../../helpers/PageContext";
 
 /* const positions = {
   washingmachine: {
@@ -28,40 +27,13 @@ import { CameraPositionLogger } from "../helpers/CameraPositionLogger";
   }
 } */
 
-
-// camera positions and angles of 3D model for camera
-const positions = [
-  {
-    pos: [200,-450,-135],
-    rot: [Math.PI / 2, 0, 0],
-  },
-  {
-    pos: [100,-850,-220],
-    rot: [Math.PI / 2, -1.58, 0],
-  },
-  {
-    pos: [350,-950, -250],
-    rot: [Math.PI / 2, -1.95, -0.1],
-  },
-  {
-    pos: [-40,-400,-135],
-    rot: [Math.PI / 2, 0.5, 0]
-  }
-]
-
 export function GarageModel(props) {
-  const { nodes, materials, scene } = useGLTF(garageScene);
+  const { nodes, materials } = useGLTF(garageScene);
   const modelPosRef = useRef();
-  const scroll = useScroll();
-  //const tl = useRef();
-  const washingMachineRef = useRef();
-  const doorRef = useRef();
-  const boardRef = useRef();
   const { page } = useContext(PageContext);
   const gsapTL = gsap.timeline(); // set tlRef to be gsap timeline
 
   useEffect(() => {
-    console.log(page);
 
     switch (page) {
       case 'garage-entry-door':
@@ -201,8 +173,8 @@ export function GarageModel(props) {
           {
             duration: 1,
             x: Math.PI / 2,
-            y: 1.6, // 1.6
-            z: 1.53, // 1.53
+            y: 1.6,
+            z: 1.53,
           },
           0
         );
@@ -264,7 +236,6 @@ export function GarageModel(props) {
             position={[-100, 300, -74.508]}
             rotation={[-Math.PI / 2, 0, 0]}
             scale={100}
-            ref={doorRef}
           >
             <mesh
               castShadow
@@ -283,7 +254,6 @@ export function GarageModel(props) {
             position={[-86.888, 300, -74.508]}
             rotation={[-Math.PI / 2, 0, 0]}
             scale={100}
-            ref={boardRef}
           >
             <mesh
               castShadow

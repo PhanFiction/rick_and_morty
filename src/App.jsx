@@ -2,9 +2,8 @@
 /* eslint-disable no-unused-vars */
 import { useState, Suspense, useEffect, createContext, useContext, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { GarageModel } from './components/GarageModel';
+import { GarageModel } from './components/Model/GarageModel';
 import { Html, useProgress, OrbitControls, Text } from '@react-three/drei';
-import { CameraPositionLogger } from './helpers/CameraPositionLogger';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { PageContext } from './helpers/PageContext';
 import HomePage from './pages/HomePage/HomePage';
@@ -25,13 +24,13 @@ const Loading = () => {
 }
 
 function App() {
-  const [page, setPage] = useState('table');
+  const [page, setPage] = useState('garage-slide-door');
   const [isMobile, setMobile] = useState('');
   const cameraRef = useRef();
 
   return (
     <BrowserRouter>
-      <section className='h-screen w-screen relative'>
+      <div className='h-screen w-screen relative'>
         <PageContext.Provider value={{ page, setPage }}>
           <Canvas 
             camera = {{
@@ -40,8 +39,7 @@ function App() {
           >
             <Suspense fallback={<Loading/>}>
               <ambientLight intensity={1} />
-              <OrbitControls /* enableZoom={false} enableRotate={false} enablePan={false} */ ref={cameraRef}/>
-              <CameraPositionLogger event='mousedown' mouseRef={cameraRef} />
+              <OrbitControls enableZoom={false} enableRotate={false} enablePan={false} ref={cameraRef}/>
               <GarageModel />
             </Suspense>
           </Canvas>
@@ -51,9 +49,9 @@ function App() {
             <Route path="/" element={<HomePage />} />
           </Routes>
         </PageContext.Provider>
-      </section>
-      <nav className='absolute top-12 right-12'>
-        <ul>
+      </div>
+      <nav className='absolute top-12 right-12 text-white'>
+        <ul className='text-clamp hidden sm:block'>
           <li>
             <Link to="/">Home</Link>
           </li>

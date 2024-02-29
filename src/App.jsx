@@ -9,6 +9,7 @@ import { PageContext } from './helpers/PageContext';
 import HomePage from './pages/HomePage/HomePage';
 import CharacterPage from './pages/CharacterPage/CharacterPage';
 import PlanetPage from './pages/PlanetPage/PlanetPage';
+import Nav from './components/Nav/Nav';
 
 const Loading = () => {
   const { progress } = useProgress();
@@ -25,12 +26,12 @@ const Loading = () => {
 
 function App() {
   const [page, setPage] = useState('garage-slide-door');
-  const [isMobile, setMobile] = useState('');
   const cameraRef = useRef();
 
+  //<div className='h-screen relative overflow-hidden'>
   return (
     <BrowserRouter>
-      <div className='h-screen w-screen relative'>
+      <div className='h-screen relative'>
         <PageContext.Provider value={{ page, setPage }}>
           <Canvas 
             camera = {{
@@ -50,19 +51,7 @@ function App() {
           </Routes>
         </PageContext.Provider>
       </div>
-      <nav className='absolute top-12 right-12 text-white'>
-        <ul className='text-clamp hidden sm:block'>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/characters">Characters</Link>
-          </li>
-          <li>
-            <Link to="/planets">Planets</Link>
-          </li>
-        </ul>
-      </nav>
+      <Nav />
     </BrowserRouter>
   )
 }

@@ -10,9 +10,11 @@ import rickandmortyTitle from '../../assets/title-rickandmorty.png';
 export default function PlanetPage() {
   const { setPage } = useContext(PageContext);
   usePageLocation('washingmachine');
-  const response = useSearchLocation('earth');
+  const [userInput, setUserInput] = useState(null);
+  const response = useSearchLocation(userInput);
   const { results, info } = response;
-  const [userInput, setUserInput] = useState('');
+
+  const handleUserInput = (e) => setUserInput(e.target.value);
 
   return (
     <OverLay>
@@ -24,7 +26,7 @@ export default function PlanetPage() {
         </div>
 
         <form className='w-full'>
-          <Searchbar locations={results} />
+          <Searchbar locations={results} value={userInput} handleUserInput={handleUserInput}/>
         </form>
 
         <article className='flex flex-col text-white'>

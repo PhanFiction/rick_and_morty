@@ -16,7 +16,6 @@ export function useSearchLocation(data) {
         console.log('planet ', data);
         const response = await fetch(`${api}/location/?&name=${data}`);
         const jsonData = await response.json();
-        console.log(jsonData);
         setLocations(jsonData);
       } catch (error) {
         abortController.abort();

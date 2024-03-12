@@ -1,15 +1,14 @@
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable no-unused-vars */
-import { useState, Suspense, useEffect, createContext, useContext, useRef } from 'react'
+import { useState, Suspense, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { GarageModel } from './components/Model/GarageModel';
-import { Html, useProgress, OrbitControls, Text } from '@react-three/drei';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Html, useProgress, OrbitControls } from '@react-three/drei';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { PageContext } from './helpers/PageContext';
 import HomePage from './pages/HomePage/HomePage';
 import CharacterPage from './pages/CharacterPage/CharacterPage';
 import PlanetPage from './pages/PlanetPage/PlanetPage';
 import Nav from './components/Nav/Nav';
+import SingleCharacterPage from './pages/CharacterPage/SingleCharacterPage';
 
 const Loading = () => {
   const { progress } = useProgress();
@@ -39,7 +38,6 @@ function App() {
             }}
           >
             <Suspense fallback={<Loading/>}>
-              <ambientLight intensity={1} />
               <OrbitControls enableZoom={false} enableRotate={false} enablePan={false} ref={cameraRef}/>
               <GarageModel />
             </Suspense>
@@ -47,6 +45,7 @@ function App() {
           <Routes>
             <Route path="/planets" element={<PlanetPage />} />
             <Route path="/character" element={<CharacterPage />}/>
+            <Route path="/character/:id" element={<SingleCharacterPage />}/>
             <Route path="/" element={<HomePage />} />
           </Routes>
         </PageContext.Provider>

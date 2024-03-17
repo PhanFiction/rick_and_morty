@@ -38,6 +38,22 @@
   .custom-color {
     filter: drop-shadow(0px 0px 0px white) invert(100%);
   }
+  
+  .sidebar-icon-slide-out {
+    @apply animate-text-slide-out hidden
+  }
+
+  .sidebar-icon-slide-in {
+    @apply block animate-text-slide-in w-8 sm:w-12 custom-color
+  }
+
+  .sidebar-text-slide-in {
+    @apply animate-text-slide-in
+  }
+
+  .sidebar-text-slide-out {
+    @apply animate-text-slide-out
+  }
 }
 
 input[type="search"]::-webkit-search-decoration,

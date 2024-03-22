@@ -8,7 +8,6 @@ import HomePage from './pages/HomePage/HomePage';
 import CharacterPage from './pages/CharacterPage/CharacterPage';
 import PlanetPage from './pages/PlanetPage/PlanetPage';
 import Nav from './components/Nav/Nav';
-import SingleCharacterPage from './pages/CharacterPage/SingleCharacterPage';
 
 const Loading = () => {
   const { progress } = useProgress();
@@ -45,7 +44,6 @@ function App() {
           <Routes>
             <Route path="/planets" element={<PlanetPage />} />
             <Route path="/character" element={<CharacterPage />}/>
-            <Route path="/character/:id" element={<SingleCharacterPage />}/>
             <Route path="/" element={<HomePage />} />
           </Routes>
         </PageContext.Provider>

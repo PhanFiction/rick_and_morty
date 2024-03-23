@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 export default function Card({ children }) {
   return (
@@ -6,4 +6,8 @@ export default function Card({ children }) {
       { children }
     </div>
   )
+}
+
+Card.propTypes = {
+  children: PropTypes.element,
 }

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function CardContent({ character }) {
   return (
     <div className="flex flex-wrap">
@@ -14,4 +16,8 @@ export default function CardContent({ character }) {
 
     </div>
   )
+}
+
+CardContent.propTypes = {
+  character: PropTypes.object,
 }

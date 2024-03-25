@@ -43,7 +43,7 @@ function App() {
           </Canvas>
           <Routes>
             <Route path="/planets" element={<PlanetPage />} />
-            <Route path="/character" element={<CharacterPage />}/>
+            <Route path="/characters" element={<CharacterPage />}/>
             <Route path="/" element={<HomePage />} />
           </Routes>
         </PageContext.Provider>

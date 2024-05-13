@@ -66,7 +66,12 @@ export default {
             opacity: '0',
           },
         }         
-    },
+      },
+      fontFamily: {
+        'Truculenta': "Truculenta",
+        'Touri': "Tauri",
+        'Edu': "Edu NSW ACT Foundation",
+      }
     },
   },
   plugins: [],

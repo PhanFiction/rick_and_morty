@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import CircleButton from '../CircleButton/CircleButton';
+import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 
 export default function Pagination({ totalPages, activePage, nextPage }) {
 
@@ -47,7 +48,9 @@ export default function Pagination({ totalPages, activePage, nextPage }) {
 
   return (
     <>
+      <button onClick={() => {nextPage(1)}}><FaAnglesLeft/></button>
       { renderPageNumbers() }
+      <button onClick={() => {nextPage(totalPages)}}><FaAnglesRight/></button>
     </>
   )
 }

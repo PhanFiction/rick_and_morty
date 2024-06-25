@@ -1,24 +1,48 @@
-import { useState, useEffect, useContext } from 'react'
-import { PageContext } from '../../helpers/PageContext';
+import { useState } from 'react';
 import OverLay from '../../components/OverLay/OverLay';
 import { usePageLocation } from '../../hooks/usePageLocation';
 import Searchbar from '../../components/Searchbar/Searchbar';
-import { useFetchData, useSearchLocation } from '../../hooks/useFetchData';
+import { useFetchMultipleCharacters, useSearchLocation, useFetchSingleCharacter } from '../../hooks/useFetchData';
+import { extractCharacterIds } from '../../helpers/extractCharacterIds';
+import Modal from '../../components/Modal/Modal';
+import ModalContent from '../../components/Modal/ModalContent';
+import Card from '../../components/Card/Card';
+import CardContent from '../../components/Card/CardContent';
 import rickandmortyCircle from '../../assets/circle-rickandmorty.png';
 import rickandmortyTitle from '../../assets/title-rickandmorty.png';
 
 export default function PlanetPage() {
-  const { setPage } = useContext(PageContext);
   usePageLocation('washingmachine');
-  const [userInput, setUserInput] = useState(null);
-  const response = useSearchLocation(userInput);
-  const { results, info } = response;
+  const [userInput, setUserInput] = useState('');
+  const [planet, setPlanet] = useState({});
+  const [multipleCharIds, setMultCharIds] = useState([0]);
+  const [characterId, setCharacterId] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+
+  // Below is custom hooks of useEffects
+  const fetchedLocationData = useSearchLocation(userInput);
+  const fetchedCharactersData = useFetchMultipleCharacters(multipleCharIds);
+  const fetchedSingleCharacterData = useFetchSingleCharacter(characterId);
+
+  // Toggle modal when user clicks on card
+  const toggleModal = (charId) => { 
+    setShowModal(!showModal);
+    setCharacterId(charId);
+  }
 
   const handleUserInput = (e) => setUserInput(e.target.value);
+  
+  const selectedLocation = (location) => {
+    setUserInput('');
+    const parsedCharacterIds = extractCharacterIds(location.residents);
+    setPlanet(location);
+    setMultCharIds(parsedCharacterIds);
+  }
+  
 
   return (
     <OverLay>
-      <div className='w-full h-screen flex flex-col'>
+      <div className='w-full h-screen flex flex-col items-center gap-4 text-white'>
 
         <div className='relative flex justify-center flex-col items-center w-full -top-12'>
           <img src={rickandmortyCircle } alt="circle" className='w-[100%] sm:w-[60%] lg:w-[50%]'/>
@@ -26,28 +50,40 @@ export default function PlanetPage() {
         </div>
 
         <form className='w-full'>
-          <Searchbar locations={results} value={userInput} handleUserInput={handleUserInput}/>
+          <Searchbar 
+            locations={fetchedLocationData.results} 
+            userInput={userInput} 
+            handleUserInput={handleUserInput} 
+            setLocation={selectedLocation}
+          />
         </form>
 
+        {/*Box to show type, dimension, and population based on user search*/}
+        <div className='w-72 md:w-6/12 border-2 border-darkGreen custom-box-shadow rounded-md mt-8 p-4'>
+          <h1 className='text-center font-semibold text-lg font-Edu'>{planet?.name}</h1>
+          <ul className='flex flex-col justify-center gap-4 sm:flex-row my-4 font-Truculenta'>
+            <li className='text-md text-lightGray'>Type: <span className='font-semibold text-white'>{planet?.type}</span></li>
+            <li className='text-md text-lightGray'>Dimension: <span className='font-semibold text-white'>{planet?.dimension}</span></li>
+            <li className='text-md text-lightGray'>Population: <span className='font-semibold text-white'>{planet.residents?.length}</span></li>
+          </ul>
+        </div>
+
+        {/*Display list of all characters once user selected the planet*/}
         <article className='flex flex-col text-white'>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 my-16 ml-24 mr-5'>
-{/*             {
-              results?.map(character => (
-                <div className='rounded-md border-2 border-lightGreen custom-box-shadow residentCard cursor-pointer bg-black' key={character.id}>
-                  <img src={`${character.image}`} alt="" className='w-full opacity-90'/>
-                  <h2 className='text-lighterGreen font-semibold text-2xl text-center my-2'>{ character.name }</h2>
-                  <div className='my-4'>
-                    <ul className='px-8 [&>li]:my-1'>
-                      <li><span className="text-lightGray">Gender: </span>{ character.gender }</li>
-                      <li><span className="text-lightGray">Species: </span>{ character.species }</li>
-                      <li><span className="text-lightGray">Location: </span>{ character.location.name }</li>
-                      <li><span className="text-lightGray">Status: </span>{ character.status }</li>
-                    </ul>
-                  </div>
-                </div>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-16 mx-8 md:ml-24'>
+            {
+              fetchedCharactersData?.map(character => (
+                <Card key={character.id}>
+                  <button onClick={()=>{toggleModal(character.id)}}>
+                    <CardContent character={character} />
+                  </button>
+                </Card>
               ))
-            } */}
+            }
           </div>
+          <Modal showModal={showModal} toggleModal={toggleModal}>
+            <ModalContent character={fetchedSingleCharacterData}/>
+          </Modal>
         </article>
       </div>
     </OverLay>

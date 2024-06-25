@@ -1,8 +1,8 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 import { useRef, useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 
-export function CameraPositionLogger({ event = {}, mouseRef }) {
+export function CameraPositionLogger({ event = {} }) {
   const { camera } = useThree();
   const cameraRef = useRef(camera);
 
@@ -34,4 +34,8 @@ export function CameraPositionLogger({ event = {}, mouseRef }) {
   }, []);
   
   return null;
+}
+
+CameraPositionLogger.propTypes = {
+  event: PropTypes.event,
 }

@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
-export default function Searchbar({ locations, value, handleUserInput }) {
-  console.log(locations, locations?.residents);
+import PropTypes from 'prop-types';
+
+export default function Searchbar({ locations, userInput, handleUserInput, setLocation }) {
   const borderStyle = {
-    'rounded-full': 'rounded-md',
-    'rounded-top': 'rounded-t-md'
+    'hidden': 'hidden',
+    'block': 'block'
   }
 
   return (
@@ -11,15 +11,15 @@ export default function Searchbar({ locations, value, handleUserInput }) {
       <div className='relative'>
         <input
           type="search"
-          placeholder='Search'
-          className={`w-72 md:w-96 p-2 bg-white ${locations ? borderStyle['rounded-top'] : borderStyle['rounded-full']}`}
-          value={value}
+          placeholder='Search dimension'
+          className={`w-72 md:w-96 p-2 bg-transparent border-2 border-lightGreen custom-box-shadow rounded-md`}
+          value={userInput}
           onChange={handleUserInput}
         />
-        <ul className={`absolute w-full h-80 top-10 overflow-auto rounded-b-md`}>
+        <ul className={`absolute w-full h-80 top-11 overflow-auto rounded-md z-20 ${userInput === '' ? borderStyle['hidden'] : borderStyle['block'] }`}>
           {
             locations?.map((item, index) => 
-              <li className="text-white bg-black p-2 hover:text-red-500 hover:cursor-pointer" key={index}>
+              <li className="text-white bg-black p-2 hover:text-lighterGreen hover:cursor-pointer" key={index} onClick={()=>{setLocation(item)}}>
                 { item.name }
               </li>
             )
@@ -27,6 +27,12 @@ export default function Searchbar({ locations, value, handleUserInput }) {
         </ul>
       </div>
     </div>
-
   )
+}
+
+Searchbar.propTypes = {
+  locations: PropTypes.array,
+  userInput: PropTypes.string,
+  handleUserInput: PropTypes.func,
+  setLocation: PropTypes.func,
 }

@@ -2,30 +2,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
-import React, { useRef, useEffect, useContext } from "react";
+import { useRef, useEffect, useContext } from "react";
 import gsap from "gsap"; // Animation library
 import { useGLTF } from "@react-three/drei";
 import garageScene from '../../assets/rick_and_morty_garage_fan_art.glb';
 import { PageContext } from "../../helpers/PageContext";
-
-/* const positions = {
-  washingmachine: {
-    pos: [100,-850,-220],
-    rot: [Math.PI / 2, -1.58, 0],
-  },
-  door: {
-    pos: [200,-450,-135],
-    rot: [Math.PI / 2, 0, 0],
-  },
-  board: {
-    pos: [350,-950, -250],
-    rot: [Math.PI / 2, -1.95, -0.1],
-  },
-  shelf: {
-    pos: [-40,-400,-135],
-    rot: [Math.PI / 2, 0.5, 0]
-  }
-} */
 
 export function GarageModel(props) {
   const { nodes, materials } = useGLTF(garageScene);

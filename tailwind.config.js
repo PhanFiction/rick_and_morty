@@ -25,7 +25,7 @@ export default {
         darkNavy: "#23232e",
       },
       backgroundImage: {
-        'rickandmorty-bg': "url('./src/assets/bg-rickandmorty.png')",
+        'rickandmorty-bg': "url('./bg-rickandmorty.png')",
       },
       fontSize: {
         clamp: "clamp(1rem, 2vw, 3rem)",

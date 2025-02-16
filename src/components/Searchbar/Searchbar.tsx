@@ -1,6 +1,15 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Searchbar({ locations, userInput, handleUserInput, setLocation }) {
+interface Searchbar {
+  locations: any[];
+  userInput: string;
+  handleUserInput: (input: string) => void;
+  setLocation: (input: string) => void;
+}
+
+export default function Searchbar({ locations, userInput, handleUserInput, setLocation }: 
+  { locations: any[], userInput: string, handleUserInput: any, setLocation: any }) {
   const borderStyle = {
     'hidden': 'hidden',
     'block': 'block'

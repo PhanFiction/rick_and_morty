@@ -11,10 +11,22 @@ import CardContent from '../../components/Card/CardContent';
 import rickandmortyCircle from '../../assets/circle-rickandmorty.png';
 import rickandmortyTitle from '../../assets/title-rickandmorty.png';
 
+interface Planet {
+  name?: string | null;
+  type?: string | null;
+  dimension?: string | null;
+  residents?: string | null;
+}
+
 export default function PlanetPage() {
   usePageLocation('washingmachine');
   const [userInput, setUserInput] = useState('');
-  const [planet, setPlanet] = useState({});
+  const [planet, setPlanet] = useState<Planet>({
+    name: 'Earth',
+    type: 'Earth',
+    dimension: 'Earth',
+    residents: ''
+  });
   const [multipleCharIds, setMultCharIds] = useState([0]);
   const [characterId, setCharacterId] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -30,7 +42,7 @@ export default function PlanetPage() {
     setCharacterId(charId);
   }
 
-  const handleUserInput = (e) => setUserInput(e.target.value);
+  const handleUserInput = (e: { target: { value: React.SetStateAction<string>; }; }) => setUserInput(e.target.value);
   
   const selectedLocation = (location: any) => {
     setUserInput('');
@@ -39,7 +51,6 @@ export default function PlanetPage() {
     setMultCharIds(parsedCharacterIds);
   }
   
-
   return (
     <OverLay>
       <div className='w-full h-screen flex flex-col items-center gap-4 text-white'>
@@ -72,7 +83,7 @@ export default function PlanetPage() {
         <article className='flex flex-col text-white'>
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-16 mx-8 md:ml-24'>
             {
-              fetchedCharactersData?.map(character => (
+              fetchedCharactersData?.map((character) => (
                 <Card key={character.id}>
                   <button onClick={()=>{toggleModal(character.id)}}>
                     <CardContent character={character} />

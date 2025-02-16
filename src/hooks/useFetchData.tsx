@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 const api = import.meta.env.VITE_API;
 
-export function useFetchMultipleCharacters(data: Array<number>) {
+export function useFetchMultipleCharacters(data: Array<number> | string) {
   const [characters, setCharacters] = useState<Array<object>>([]);
 
   useEffect(() => {
@@ -53,9 +53,6 @@ export function useSearchLocation(name: string) {
   const [locations, setLocations] = useState([]);
   
   useEffect(() => {
-    // take user input
-    // query user input to search location
-    // select user input when clicked
     const abortController = new AbortController(); // Abort api call if component fails to render
     const fetchData = async () => {
       try {

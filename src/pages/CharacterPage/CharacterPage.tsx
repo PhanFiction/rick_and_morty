@@ -26,7 +26,7 @@ export default function CharacterPage() {
     if (nextPage > 0 && nextPage <= info?.pages) setActivePage(nextPage);
   }
 
-  const toggleModal = (charId) => { 
+  const toggleModal = (charId: number) => { 
     setShowModal(!showModal);
     setCharacterId(charId);
   }
@@ -37,7 +37,7 @@ export default function CharacterPage() {
         <h1 className='text-center text-4xl font-Edu sm:text-6xl mt-12 sm:my-20 border-2 border-darkGreen custom-box-shadow rounded-md p-4 w-1/4'>Characters</h1>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-8 md:ml-24'>
           {
-            results?.map(character => (
+            results?.map((character: any) => (
               <Card key={character.id}>
                 <button onClick={()=>{toggleModal(character.id)}}>
                   <CardContent character={character} />
